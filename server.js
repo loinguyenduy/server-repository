@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 
 // config cors
 var corsOptions = {
-  origin: ["http://localhost:8080", "vietflavor.vercel.app"],
+  origin: ["http://localhost:8080", "https://vietflavor.vercel.app"],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
