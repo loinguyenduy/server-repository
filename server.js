@@ -56,6 +56,9 @@ adminRoutes(app);
 cartRoutes(app);
 orderRoutes(app);
 
+app.get("/", (req, res) => {
+  res.send("Backend server is running...");
+});
 //config port and start server
 // const SERVER_PORT = 3000;
 const SERVER_PORT = process.env.PORT || 3001; //3001: optimized for Render
