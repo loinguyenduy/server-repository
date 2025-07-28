@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 
 // config cors
 var corsOptions = {
-  origin: "http://localhost:8080",
+  origin: ["http://localhost:8080", "vietflavor.vercel.app"],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
@@ -58,7 +58,7 @@ orderRoutes(app);
 
 //config port and start server
 // const SERVER_PORT = 3000;
-const SERVER_PORT = process.env.PORT || 3001  //3001: optimized for Render
+const SERVER_PORT = process.env.PORT || 3001; //3001: optimized for Render
 app.listen(SERVER_PORT, () => {
   console.log("http://localhost:" + SERVER_PORT);
 });
