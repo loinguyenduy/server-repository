@@ -17,21 +17,19 @@ const registerUser = async (req, res) => {
       role: role || "user",
     });
     if (user) {
-      // SỬA LỖI: KHÔNG TRẢ VỀ TOKEN KHI ĐĂNG KÝ
       res.status(201).json({
-        message: "Registration successful! Please log in.", // Thông báo rõ ràng
+        message: "Registration successful! Please log in.", 
         _id: user._id,
         fullName: user.fullName,
         email: user.email,
-        // Không trả về phoneNumber, address, role nếu không cần thiết cho frontend sau đăng ký
-        // Chỉ trả về những gì cần thiết để xác nhận người dùng đã được tạo
+
       });
     } else {
       res.status(400).json({ message: "Invalid user information!" });
     }
   } catch (err) {
-    console.error("Error during user registration:", err); // Sử dụng console.error
-    res.status(500).json({ message: err.message || "Server error during registration." }); // Phản hồi JSON nhất quán
+    console.error("Error during user registration:", err); 
+    res.status(500).json({ message: err.message || "Server error during registration." }); 
   }
 };
 
@@ -54,19 +52,17 @@ const loginUser = async (req, res) => {
       res.status(401).json({ message: "Invalid email or password!" });
     }
   } catch (err) {
-    console.error("Error in user login:", err); // Sử dụng console.error
-    res.status(500).json({ message: err.message || "Server error during login." }); // Phản hồi JSON nhất quán
+    console.error("Error in user login:", err); 
+    res.status(500).json({ message: err.message || "Server error during login." }); 
   }
 };
 
 const logoutUser = async (req, res) => {
-  // Nếu bạn có logic xóa token phía server (ví dụ: blacklist token), hãy thêm vào đây
-  // Hiện tại, việc logout chủ yếu diễn ra ở frontend bằng cách xóa token khỏi client
   res.status(200).json({ message: "Logged out successfully (client-side token removed)." });
 };
 
 const getUser = async (req, res) => {
-  const user = req.user; // req.user được gán từ middleware xác thực token
+  const user = req.user; 
   try {
     if (user) {
       res.json({
@@ -78,17 +74,16 @@ const getUser = async (req, res) => {
         role: user.role,
       });
     } else {
-      // Trường hợp này hiếm khi xảy ra nếu middleware xác thực hoạt động đúng
       res.status(404).json({ message: "Authenticated user not found in request." });
     }
   } catch (err) {
-    console.error("Error in get user:", err); // Sửa console.err thành console.error
-    res.status(500).json({ message: err.message || "Server error while fetching user." }); // Phản hồi JSON nhất quán
+    console.error("Error in get user:", err); 
+    res.status(500).json({ message: err.message || "Server error while fetching user." }); 
   }
 };
 
 const updateProfile = async (req, res) => {
-  const user = req.user; // req.user được gán từ middleware xác thực token
+  const user = req.user; 
 
   try {
     user.fullName = req.body.fullName || user.fullName;
@@ -124,18 +119,14 @@ const updateProfile = async (req, res) => {
       }
       user.password = req.body.newPassword;
     }
-    // Không cho phép người dùng tự thay đổi vai trò qua updateProfile
     if (req.body.role && req.body.role !== user.role) {
       console.warn(
         `User ${user.email} attempted to change role to ${req.body.role}. Action denied.`
       );
-      // Có thể trả về lỗi hoặc chỉ bỏ qua trường này
-      // return res.status(403).json({ message: "Role cannot be changed via this endpoint." });
+
     }
 
     const updatedUser = await user.save();
-    // Khi update profile, vẫn trả về token mới (nếu token cũ sắp hết hạn hoặc để refresh)
-    // và thông tin user cập nhật
     res.json({
       _id: updatedUser._id,
       fullName: updatedUser.fullName,
@@ -143,16 +134,16 @@ const updateProfile = async (req, res) => {
       role: updatedUser.role,
       phoneNumber: updatedUser.phoneNumber,
       address: updatedUser.address,
-      token: generateToken(updatedUser._id), // Vẫn giữ token ở đây
+      token: generateToken(updatedUser._id), 
       message: "Profile updated successfully",
     });
   } catch (err) {
-    console.error("Error in update profile:", err); // Sử dụng console.error
+    console.error("Error in update profile:", err); 
     if (err.name === "ValidationError") {
       const message = Object.values(err.errors).map((val) => val.message);
       return res.status(400).json({ message });
     }
-    res.status(500).json({ message: err.message || "Server error during profile update." }); // Phản hồi JSON nhất quán
+    res.status(500).json({ message: err.message || "Server error during profile update." }); 
   }
 };
 

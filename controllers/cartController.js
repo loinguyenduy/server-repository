@@ -1,19 +1,7 @@
 const Cart = require("../models/cartModel");
 const Product = require("../models/productModel");
 
-// const getCart = async(req, res) => {
-//   try {
-//     const cart = await Cart.findOne({user: req.user._id}).populate("cartItem.product", "name image price")
-//     if(cart) {
-//       res.json(cart)
-//     } else {
-//       res.status(200).json({user: req.user._id, cartItem: [], totalPrice: 0})
-//     }
-//   } catch(err) {
-//     console.log("Error in get cart: ", err)
-//     res.status(500).json({"message" : err.message})
-//   }
-// }
+
 
 const getCart = async (req, res) => {
   try {

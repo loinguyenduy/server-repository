@@ -1,15 +1,7 @@
 const Product = require("../models/productModel.js");
 const Category = require("../models/categoryModel.js");
 
-// get all products
-// const getAllProducts = async (req, res) => {
-//   try {
-//     const products = await Product.find({}).populate("category", "name");
-//     res.json(products);
-//   } catch (err) {
-//     res.status(500).send(err);
-//   }
-// };
+
 
 const getAllProducts = async (req, res) => {
   try {
@@ -194,47 +186,6 @@ const deleteProduct = async (req, res) => {
   }
 };
 
-// search product by keyword
-// const searchProduct = async (req, res) => {
-//   try {
-//     const keyword = req.query.keyword;
-//     const page = parseInt(req.query.page) || 1;
-//     const limit = parseInt(req.query.limit) || 10;
-//     if (!keyword) {
-//       return res
-//         .status(400)
-//         .json({ message: "Please provide a keyword for search." });
-//     }
-
-//     const query = {
-//       name: {
-//         $regex: keyword,
-//         $options: "i",
-//       },
-//     };
-
-//     const options = {
-//       page: page,
-//       limit: limit,
-//     };
-
-//     const result = await Product.paginate(query, options);
-
-//     if (result.docs.length === 0 && result.totalDocs === 0) {
-//       return res.status(404).json({ message: "Cannot found this product." });
-//     }
-
-//     res.json({
-//       products: result.docs,
-//       page: result.page,
-//       pages: result.totalPages,
-//       totalProducts: result.totalDocs,
-//       limit: result.limit,
-//     });
-//   } catch (err) {
-//     res.status(500).send(err);
-//   }
-// };
 
 module.exports = {
   getAllProducts,

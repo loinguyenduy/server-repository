@@ -88,11 +88,8 @@ const getOrderById = async (req, res) => {
         .json({ message: "Not authorized to view this order!" });
     }
 
-    // Gracefully handle deleted products
     order.orderItem.forEach((item) => {
       if (!item.product) {
-        // If product was deleted, populate returns null.
-        // We create a placeholder from the snapshot data stored in the order item.
         item.product = {
           _id: null,
           name: `${item.name} (Product no longer available)`,
@@ -122,7 +119,6 @@ const getAdminOrderById = async (req, res) => {
       return res.status(404).json({ message: "Order not found!" });
     }
 
-     // Gracefully handle deleted products
     order.orderItem.forEach((item) => {
       if (!item.product) {
         item.product = {
